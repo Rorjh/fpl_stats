@@ -15,6 +15,32 @@ def set_layout(r):
     players['expected_goal_involvements'] = players['expected_goal_involvements'].astype(float)
     players['expected_goals_conceded'] = players['expected_goals_conceded'].astype(float)
 
+    navbar = dbc.Navbar(
+        dbc.Container(
+            [
+                html.A(
+                    # Use row and col to control vertical alignment of logo / brand
+                    dbc.Row(
+                        [
+                            dbc.Col(html.Img(src='assets/prem-logo-white.png', height="30px")),
+                            dbc.Col(dbc.NavbarBrand("FPL Dashboard", className="ms-2")),
+                        ],
+                        align="center",
+                        className="g-0",
+                    ),
+                    href="http://127.0.0.1:8050/",
+                    style={"textDecoration": "none"},
+                ),
+                dbc.Button("General Data", 'btn_tab_1'),
+                dbc.Button("Players Data", 'btn_tab_2'),
+                dbc.Button("My Team", 'btn_tab_3'),
+            ],
+            style={'justify':'left'}
+        ),
+        color="dark",
+        dark=True,
+    )
+
     # Define the layout for each tab
     tab1_content = html.Div([
         dbc.Row([
@@ -66,10 +92,9 @@ def set_layout(r):
                     figure=px.scatter(players, x="now_cost", y="expected_goals_conceded", color="singular_name", hover_data=['first_name','second_name'])
                 )
             ])), width=6),
-        ]),
+        ], style={'margin-top': '20px'}),
     ],style={'margin':'10px 10px 10xp 10px'})
-    
-    
+      
     tab2_content = dbc.Card(
         dbc.CardBody(
             [
@@ -88,14 +113,22 @@ def set_layout(r):
         className="mt-3",
     )
 
-    # Define the main layout with tabs
-    layout = html.Div([
-        dbc.Row([dbc.Col(html.Img(src='assets/prem-logo-white.png', height='50px'),width=1),dbc.Col(html.H2('FPL Dashboard'),width=11)]),
-        dbc.Tabs([
-            dbc.Tab(tab1_content, label='Players Data'),
-            dbc.Tab(tab2_content, label='Team Planner'),
-            dbc.Tab(tab3_content, label='Tab3'),
-        ], style={'margin-top':'20px'})
-    ])
+    tabs = dbc.Tabs([
+        dbc.Tab(tab1_content, label='Players Data', tab_id='1'),
+        dbc.Tab(tab2_content, label='Team Planner', tab_id='2'),
+        dbc.Tab(tab3_content, label='Tab3', tab_id='3'),
+    ], style={'margin-top':'20px'}, id='app_tabs', active_tab='1')
+
+
+    layout = dbc.Container(
+        children=[navbar, tabs],
+        fluid=True,
+        style={
+            'display': 'flex',
+            'min-height': '100vh',
+            'flex-direction': 'column',
+            'min-width': 'fit-content'
+        }
+    )
 
     return layout

@@ -3,17 +3,10 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 
-def set_layout(r):
-    players = pd.DataFrame(r['elements'])
-    teams = pd.DataFrame(r['teams'])
-    players = players.merge(right=teams, left_on='team', right_on='id')
+def set_layout(players):
+    
     top_scorers = players[players.goals_scored != 0].sort_values('goals_scored', ascending=False)[['first_name','second_name','name','goals_scored','expected_goals']]
     top_assisters = players[players.assists != 0].sort_values('assists', ascending=False)[['first_name','second_name','name','assists','expected_assists']]
-    players['now_cost'] = players['now_cost'] / 10
-    positions = pd.DataFrame(r['element_types'])
-    players = players.merge(right=positions, left_on='element_type', right_on='id')
-    players['expected_goal_involvements'] = players['expected_goal_involvements'].astype(float)
-    players['expected_goals_conceded'] = players['expected_goals_conceded'].astype(float)
 
     navbar = dbc.Navbar(
         dbc.Container(
@@ -32,7 +25,7 @@ def set_layout(r):
                     style={"textDecoration": "none"},
                 ),
                 dbc.Button("General Data", 'btn_tab_1'),
-                dbc.Button("Players Data", 'btn_tab_2'),
+                dbc.Button("Players Comparison", 'btn_tab_2'),
                 dbc.Button("My Team", 'btn_tab_3'),
             ],
             style={'justify':'left'}
@@ -98,7 +91,20 @@ def set_layout(r):
     tab2_content = dbc.Card(
         dbc.CardBody(
             [
-                html.P("This is tab 2!", className="card-text")
+                dbc.Row([
+                    dbc.Col([
+                        html.H4('Player 1'),
+                        dcc.Dropdown(list(set(players['name'].to_list())), id='team_pl1', placeholder='Select Team', clearable=True, style={"color":"black"}),
+                        dcc.Dropdown(list(set(players['singular_name'].to_list())), id='position_pl1', placeholder='Select Position', clearable=True, style={"color":"black", "margin-top":"10px"}),
+                        dcc.Dropdown(players['full_name'].to_list(), id='player1', placeholder='Select Player', clearable=True, style={"color":"black", "margin-top":"10px"})
+                    ]),
+                    dbc.Col([
+                        html.H4('Player 2'),
+                        dcc.Dropdown(list(set(players['name'].to_list())), id='team_pl2', placeholder='Select Team', clearable=True, style={"color":"black"}),
+                        dcc.Dropdown(list(set(players['singular_name'].to_list())), id='position_pl2', placeholder='Select Position', clearable=True, style={"color":"black", "margin-top":"10px"}),
+                        dcc.Dropdown(players['full_name'].to_list(), id='player2', placeholder='Select Player', clearable=True, style={"color":"black", "margin-top":"10px"})
+                    ])
+                ])
             ]
         ),
         className="mt-3",

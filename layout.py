@@ -76,13 +76,13 @@ def set_layout(players):
             dbc.Col(dbc.Card(dbc.CardBody([
                 html.H4('xGI vs Price'),
                 dcc.Graph(
-                    figure=px.scatter(players, x="now_cost", y="expected_goal_involvements", color="singular_name", hover_data=['first_name','second_name'])
+                    figure=px.scatter(players[players.minutes > 90], x="now_cost", y="expected_goal_involvements_per_90", color="singular_name", hover_data=['first_name','second_name','minutes'])
                 )
             ])), width=6),
             dbc.Col(dbc.Card(dbc.CardBody([
                 html.H4('xGC vs Price'),
                 dcc.Graph(
-                    figure=px.scatter(players, x="now_cost", y="expected_goals_conceded", color="singular_name", hover_data=['first_name','second_name'])
+                    figure=px.scatter(players[players.minutes > 90], x="now_cost", y="expected_goals_conceded_per_90", color="singular_name", hover_data=['first_name','second_name','minutes'])
                 )
             ])), width=6),
         ], style={'margin-top': '20px'}),
@@ -94,17 +94,29 @@ def set_layout(players):
                 dbc.Row([
                     dbc.Col([
                         html.H4('Player 1'),
-                        dcc.Dropdown(list(set(players['name'].to_list())), id='team_pl1', placeholder='Select Team', clearable=True, style={"color":"black"}),
+                        dcc.Dropdown(sorted(list(set(players['name'].to_list()))), id='team_pl1', placeholder='Select Team', clearable=True, style={"color":"black"}),
                         dcc.Dropdown(list(set(players['singular_name'].to_list())), id='position_pl1', placeholder='Select Position', clearable=True, style={"color":"black", "margin-top":"10px"}),
                         dcc.Dropdown(players['full_name'].to_list(), id='player1', placeholder='Select Player', clearable=True, style={"color":"black", "margin-top":"10px"})
                     ]),
+                    dbc.Col([dbc.Label('Stats Type'), dcc.Dropdown(['Attacking','Defending','Goalkeepers'], value='Attacking', id='stats_type', style={"color":"black"})]),
+                    dbc.Col([dbc.Label('Time Period'), dcc.Dropdown(['Per 90 min','Per Start','Per Appearance'], value='Per 90 min', id='time_period', style={"color":"black"})]),
                     dbc.Col([
                         html.H4('Player 2'),
-                        dcc.Dropdown(list(set(players['name'].to_list())), id='team_pl2', placeholder='Select Team', clearable=True, style={"color":"black"}),
+                        dcc.Dropdown(sorted(list(set(players['name'].to_list()))), id='team_pl2', placeholder='Select Team', clearable=True, style={"color":"black"}),
                         dcc.Dropdown(list(set(players['singular_name'].to_list())), id='position_pl2', placeholder='Select Position', clearable=True, style={"color":"black", "margin-top":"10px"}),
                         dcc.Dropdown(players['full_name'].to_list(), id='player2', placeholder='Select Player', clearable=True, style={"color":"black", "margin-top":"10px"})
                     ])
-                ])
+                ]),
+                dbc.Row(
+                    html.Div(
+                        id='compare_plot',
+                        style={
+                            'margin-top': '20px',
+                            'display': 'flex',
+                            'justify-content': 'center'
+                        }
+                )
+                )
             ]
         ),
         className="mt-3",

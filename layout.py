@@ -25,8 +25,7 @@ def set_layout(players):
                     style={"textDecoration": "none"},
                 ),
                 dbc.Button("General Data", 'btn_tab_1'),
-                dbc.Button("Players Comparison", 'btn_tab_2'),
-                dbc.Button("My Team", 'btn_tab_3'),
+                dbc.Button("Players Comparison", 'btn_tab_2')
             ],
             style={'justify':'left'}
         ),
@@ -99,7 +98,7 @@ def set_layout(players):
                         dcc.Dropdown(players['full_name'].to_list(), id='player1', placeholder='Select Player', clearable=True, style={"color":"black", "margin-top":"10px"})
                     ]),
                     dbc.Col([dbc.Label('Stats Type'), dcc.Dropdown(['Attacking','Defending','Goalkeepers'], value='Attacking', id='stats_type', style={"color":"black"})]),
-                    dbc.Col([dbc.Label('Time Period'), dcc.Dropdown(['Per 90 min','Per Start','Per Appearance'], value='Per 90 min', id='time_period', style={"color":"black"})]),
+                    dbc.Col([dbc.Label('Time Period'), dcc.Dropdown(['Per 90 min','Per Start'], value='Per 90 min', id='time_period', style={"color":"black"})]),
                     dbc.Col([
                         html.H4('Player 2'),
                         dcc.Dropdown(sorted(list(set(players['name'].to_list()))), id='team_pl2', placeholder='Select Team', clearable=True, style={"color":"black"}),
@@ -122,19 +121,9 @@ def set_layout(players):
         className="mt-3",
     )
 
-    tab3_content = dbc.Card(
-        dbc.CardBody(
-            [
-                html.P("This is tab 3!", className="card-text")
-            ]
-        ),
-        className="mt-3",
-    )
-
     tabs = dbc.Tabs([
         dbc.Tab(tab1_content, label='Players Data', tab_id='1'),
-        dbc.Tab(tab2_content, label='Team Planner', tab_id='2'),
-        dbc.Tab(tab3_content, label='Tab3', tab_id='3'),
+        dbc.Tab(tab2_content, label='Players Comparison', tab_id='2'),
     ], style={'margin-top':'20px'}, id='app_tabs', active_tab='1')
 
 

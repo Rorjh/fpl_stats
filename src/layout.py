@@ -11,18 +11,13 @@ def set_layout(players):
     navbar = dbc.Navbar(
         dbc.Container(
             [
-                html.A(
-                    # Use row and col to control vertical alignment of logo / brand
-                    dbc.Row(
-                        [
-                            dbc.Col(html.Img(src='assets/prem-logo-white.png', height="30px")),
-                            dbc.Col(dbc.NavbarBrand("FPL Dashboard", className="ms-2")),
-                        ],
-                        align="center",
-                        className="g-0",
-                    ),
-                    href="http://127.0.0.1:8050/",
-                    style={"textDecoration": "none"},
+                dbc.Row(
+                    [
+                        dbc.Col(html.Img(src='assets/prem-logo-white.png', height="30px")),
+                        dbc.Col(dbc.NavbarBrand("FPL Dashboard", className="ms-2")),
+                    ],
+                    align="center",
+                    className="g-0",
                 ),
                 dbc.Button("General Data", 'btn_tab_1'),
                 dbc.Button("Players Comparison", 'btn_tab_2')

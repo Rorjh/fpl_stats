@@ -7,4 +7,3 @@ It uses the up to date data from the official FPL web api (https://fantasy.premi
 
 It contains the players comparison tool.
 ![image](img/preview.png)
-

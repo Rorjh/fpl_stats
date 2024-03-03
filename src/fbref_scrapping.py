@@ -71,19 +71,22 @@ def scouting_report_fpl(team, player, player_web_name):
     if team in team_names_mapping.keys():
         team = team_names_mapping[team]
     
-    league_url = get_league_url(country = "ENG", gender = "M", season_end_year = 2024, tier = '1st')
-    teams_urls = get_teams_urls(league_url)
-    players_urls = get_players_urls(teams_urls[team])
-    if player not in players_urls.keys():
-        if player_web_name in players_urls.keys():
+    # league_url = get_league_url(country = "ENG", gender = "M", season_end_year = 2024, tier = '1st')
+    # teams_urls = get_teams_urls(league_url)
+    # players_urls = get_players_urls(teams_urls[team])
+    urls_df = pd.read_csv('data/fbref_epl_players_urls.csv')
+
+    if player not in urls_df.player.to_list():
+        if player_web_name in urls_df.player.to_list():
             player = player_web_name
         else:
-            matches = get_close_matches(player, players_urls.keys())
+            matches = get_close_matches(player, urls_df.player.to_list())
             if len(matches) == 0:
-                matches = get_close_matches(player_web_name, players_urls.keys())
+                matches = get_close_matches(player_web_name, urls_df.player.to_list())
             if len(matches) == 0:
                 return None
             else:
                 player = matches[0] 
-    report = get_scouting_report(players_urls[player])
+    url = urls_df[urls_df.player == player]['url'].iloc[0]
+    report = get_scouting_report(url)
     return report

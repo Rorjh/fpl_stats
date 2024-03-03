@@ -74,7 +74,7 @@ def scouting_report_fpl(team, player, player_web_name):
     # league_url = get_league_url(country = "ENG", gender = "M", season_end_year = 2024, tier = '1st')
     # teams_urls = get_teams_urls(league_url)
     # players_urls = get_players_urls(teams_urls[team])
-    urls_df = pd.read_csv('src/fbref_epl_players_urls.csv')
+    urls_df = pd.read_csv('fbref_epl_players_urls.csv')
 
     if player not in urls_df.player.to_list():
         if player_web_name in urls_df.player.to_list():

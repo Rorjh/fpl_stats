@@ -16,4 +16,19 @@ def get_players_data():
     players['expected_goals_conceded'] = players['expected_goals_conceded'].astype(float)
     players['full_name'] = players['first_name']+' '+players['second_name']
 
+    players_90more = players[players['minutes'].astype(float) > 90]
+    # calculate per 90 stats:
+    players['goals_scored_per90'] = players['goals_scored'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['assists_per90'] = players['assists'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['total_points_per90'] = players['total_points'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['expected_goals_per90'] = players['expected_goals'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['expected_assists_per90'] = players['expected_assists'].astype(float) / players_90more['minutes'].astype(float) * 90
+    
+    players['clean_sheets_per90'] = players['clean_sheets'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['goals_conceded_per90'] = players['goals_conceded'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['expected_goals_conceded_per90'] = players['expected_goals_conceded'].astype(float) / players_90more['minutes'].astype(float) * 90
+
+    players['penalties_saved_per90'] = players['penalties_saved'].astype(float) / players_90more['minutes'].astype(float) * 90
+    players['saves_per90'] = players['saves'].astype(float) / players_90more['minutes'].astype(float) * 90
+
     return players

@@ -93,7 +93,6 @@ def set_layout(players):
                         dcc.Dropdown(players['full_name'].to_list(), id='player1', placeholder='Select Player', clearable=True, style={"color":"black", "margin-top":"10px"})
                     ]),
                     dbc.Col([dbc.Label('Stats Type'), dcc.Dropdown(['Attacking','Defending','Goalkeepers'], value='Attacking', id='stats_type', style={"color":"black"})]),
-                    dbc.Col([dbc.Label('Time Period'), dcc.Dropdown(['Per 90 min','Per Start'], value='Per 90 min', id='time_period', style={"color":"black"})]),
                     dbc.Col([
                         html.H4('Player 2'),
                         dcc.Dropdown(sorted(list(set(players['name'].to_list()))), id='team_pl2', placeholder='Select Team', clearable=True, style={"color":"black"}),

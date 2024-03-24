@@ -9,3 +9,6 @@ It uses the up to date data from the official FPL web api (https://fantasy.premi
 ## Player comparison
 It contains the players comparison tool. The tool combines the data from Fantasy Premier League game and the data scrapped using BeautifulSoup from [Fbrev](https://fbref.com/en/), a website which aggregates football statistics.
 ![image](img/preview.png)
+
+## Points prediction - in progress
+Neural network model for predicting FPL scored points based on players information and his performance in last 10 games. Built in Keras, tracked using MLFlow. 
